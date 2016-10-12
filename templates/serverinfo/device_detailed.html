@@ -1,0 +1,132 @@
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">	
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <tbody>
+		 {% for i in Serverinfo %}
+          <tr>
+			  <th>机房</th>
+			  <td>{{i.idc}} </td>
+          </tr>
+          
+          <tr>
+			  <th>主机类型</th>
+			  <td>{{i.host_type}} </td>
+          </tr>
+          
+          <tr>
+			  <th>状态</th>
+			  <td> {{i.status}} </td>
+		  </tr>
+		  
+		  <tr>
+			  <th>购买方式</th>
+			  <td> {{i.buy_type}} </td>
+		  </tr>
+          
+          <tr>
+			  <th>外网IP1</th>
+			  <td>{{i.externalip1}} </td>
+          </tr>
+
+          <tr>
+               <th>内网IP1</th>
+               <td> {{i.internalip1}} </td>
+          </tr>
+            
+          <tr>
+			  <th>外网IP2</th>
+			  <td>{{i.externalip2}} </td>
+          </tr>
+          <tr>
+			  <th>内网IP2</th>
+			  <td>{{i.internalip2}} </td>
+          </tr>
+          <tr>
+			  <th>主机名</th>
+			  <td>{{i.hostname}} </td>
+          </tr>
+
+          <tr>
+			  <th>硬件厂商</th>
+			  <td>{{i.brand}} </td>
+          </tr>
+          
+          <tr>
+			  <th>CPU(核)</th>
+			  <td>{{i.cpu}} </td>
+          </tr>
+          <tr>
+			  <th>CPU频率</th>
+			  <td>{{i.cpu_hz}} </td>
+          </tr>
+          <tr>
+			  <th>内存容量</th>
+			  <td>{{i.memory}} </td>
+          </tr>
+          <tr>
+			  <th>硬盘个数</th>
+			  <td>{{i.disk_num}} </td>
+          </tr>
+          
+          <tr>
+			  <th>硬盘容量</th>
+			  <td>{{i.disk}} </td>
+          </tr>
+          <tr>
+			  <th>硬盘类型</th>
+			  <td>{{i.disk_type}} </td>
+          </tr>
+          <tr>
+			  <th>系统类型</th>
+			  <td>{{i.system_type}} </td>
+          </tr>
+         
+          <tr>
+              <th>系统版本号</th>
+              <td>{{i.system_version}} </td>
+          </tr>
+          
+          <tr>
+              <th>MAC地址</th>
+              <td>{{i.mac}} </td>
+          </tr>
+
+          <tr>
+              <th>机柜号</th>
+              <td>{{i.cabinet}} </td>
+          </tr>
+          
+          <tr>
+              <th>机器位置</th>
+              <td>{{i.position}} </td>
+          </tr>
+          
+          <tr>
+              <th>资产编号</th>
+              <td>{{i.number}} </td>
+          </tr>
+          
+          <tr>
+              <th>SN编号</th>
+              <td>{{i.sn}} </td>
+          </tr>
+          
+          <tr>
+              <th>备注</th>
+              <td>{{i.comment}} </td>
+          </tr>
+          
+		  <tr>
+	    	  <th> 创建时间 </th>
+			  <td> {{i.date_added }} </td>
+		  </tr>
+		  
+		  <tr>
+	    	  <th> 最后修改时间 </th>
+			  <td> {{i.date_mod }} </td>
+		  </tr>
+
+		{% endfor %}
+      </tbody>
+    </table>
+  </div>

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+          <h3 class="sub-header">修改密码</h3>
+          <br>
+
+          <form class="form-horizontal"  role="form" action="{% url 'user_changepwd' %}" method="POST"   data-toggle="validator">
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="password">原密码:</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" name="password" placeholder="原密码" required="required">
+              </div>
+            </div>
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="password1">新密码:</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" name="password1" placeholder="新密码" required="required">
+              </div>
+            </div>
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="password2">重复密码:</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" name="password2" placeholder="重复密码" required="required">
+              </div>
+            </div>
+            <!--div style="display:none"><input type="text" name="username" value={{username}} /></div-->    
+                  
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-1">
+                  <button class="btn btn-primary" type="submit" onclick="return changepwd()" >提交</button>
+               </div>
+                <div class="col-sm-1">
+                  
+                  <input class="btn btn-default" type="button" onclick="javascript:history.go(-1)" value="返回" name="Submit">
+                </div>
+             </div>
+          </form>
+{% endblock %}
+
+{% block self_footer_js %}
+
+	function changepwd(){
+		var password1 = $("input[name=password1]").val();
+		var password2 = $("input[name=password2]").val();
+		if(password1 == password2){
+			return true;
+		}else{
+			alert("两次密码输入不一致，请再次确认!!!");
+			return false;
+		}
+	}
+
+
+ 
+  	
+{% endblock %}
+       
+</body></html>

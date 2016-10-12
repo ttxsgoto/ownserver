@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+          <h3 class="sub-header">方式编辑</h3>
+          <br>
+
+          <form class="form-horizontal"  role="form" action="{% url 'buy_type_save' %}" method="POST"   data-toggle="validator">
+            <!--div class="form-group" >
+              <label class="col-sm-2 control-label" for="idc-id">ID:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="idc-id" placeholder="ID">
+              </div>
+            </div-->
+             {% for post in buymanage %}
+            <!--  div class="form-group" >
+              <label class="col-sm-2 control-label "  for="id">序 号:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="id" placeholder="序 号" required="required" value={{post.id}}  >
+              </div>
+            </div-->
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="type">购买方式:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="type"  placeholder="购买方式"  required="required" value={{post.type}}  >
+              </div>
+            </div>
+            
+            <div style="display:none"><input type="text" name='id' value={{post.id}} /></div>
+            {% endfor %}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-1">
+                  <button class="btn btn-primary" type="submit">提交</button>
+               </div>
+                <div class="col-sm-1">
+                  
+                  <input class="btn btn-default" type="button" onclick="javascript:history.go(-1)" value="返回" name="Submit">
+                </div>
+             </div>
+          </form>
+{% endblock %}
+
+{% block self_footer_js %} 
+  	
+{% endblock %}
+       
+</body></html>

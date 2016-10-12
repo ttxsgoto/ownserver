@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+
+
+{% block page-content %}
+        <div class="wrapper">
+        	<div class="controlB">
+            	<ul>
+                	<li><a title="" href="/accounts/permission/add"><img alt="" src="/static/images/icons/control/32/plus.png"><span>新建权限</span></a></li>
+                    <li><a title="" href="/accounts/permission/list"><img alt="" src="/static/images/icons/control/32/database.png"><span>权限列表</span></a></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+
+       <div class="wrapper">
+        <!-- Dynamic table -->
+        <div class="widget">
+            <div class="title"><img class="titleIcon" alt="" src="/static/images/icons/dark/frames.png">
+            <h6>用户设置</h6></div>
+            <div class="CRC" style="width: 1578px;"><div class="CRG" style="left: 317px; height: 210px;"><div style="cursor:e-resize" class="CRZ"></div></div><div class="CRG" style="left: 633.033px; height: 210px;"><div style="cursor:e-resize" class="CRZ"></div></div><div class="CRG" style="left: 949.067px; height: 210px;"><div style="cursor:e-resize" class="CRZ"></div></div><div class="CRG" style="left: 1265.1px; height: 210px;"><div style="cursor:e-resize" class="CRZ"></div></div><div class="CRL" style="left: 1579.13px; height: 210px;"></div></div><table width="100%" cellspacing="0" cellpadding="0" id="res" class="sTable CRZ">
+                <thead>
+                     <tr>
+                        <td>权限名称</td>
+                        <td>URL</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for i in lPage %}
+                        <tr style="font-size: 13px;">
+                            <td  style="text-align:center;">{{ i.name }}</td>
+                            <td  style="text-align:center;">{{ i.url }}</td>
+
+                            <td  style="text-align:center;">
+                                <a href="/accounts/permission/edit/{{ i.id }}/" onclick="return confirm('确认编辑权限吗？？')" class="smallButton" ><img src="/static/images/icons/dark/pencil.png" alt=""</a>
+                                <a href="/accounts/permission/delete/{{ i.id }}/" onclick="return confirm('确认删除权限吗？？')"class="smallButton" ><img src="/static/images/icons/dark/close.png" alt=""</span></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+               </tbody>
+            </table>
+        </div>
+
+    {% include "common/paginator.html" %}
+</div>
+    </div>
+{% endblock %}

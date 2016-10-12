@@ -1,0 +1,26 @@
+<span class="step-links">
+   {% if All_page_info.has_previous %} <!-- 是否有前一页 -->
+       <a  href="?page={{ All_page_info.previous_page_number }}">上一页</a> <!-- 前一页的页码 -->
+         </script>
+   {% endif %}
+   <span class="current">
+       第 {{ All_page_info.number }}页  总 {{ All_page_info.paginator.num_pages }} 页  <!-- 总页数 -->
+   </span>
+   {% if All_page_info.has_next %}
+       <a  href="?page={{ All_page_info.next_page_number }}">下一页</a> <!-- 后一页的页码 -->
+   {% endif %}
+</span>
+<span>
+	 &nbsp;&nbsp;共{{DataCount}}条记录 
+	 到第&nbsp;<input value="{{page}}"  id="page_jump_num" size="1" style="text-align:center; vertical-align:middle"/>&nbsp;页&nbsp; <a href="javascript:page_jump();" class="btn btn-primary btn-xs">&nbsp;&nbsp;GO&nbsp;&nbsp;</a>
+</span>
+
+
+<script>
+
+	function page_jump(){
+		var page = $("#page_jump_num").val()
+		window.location = "?"+"page="+page
+		}
+	
+</script>

@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% block self_head_css %} 
+<link href="/static/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+          <h3 class="sub-header">设备添加</h3>
+          <br>
+
+          <form class="form-horizontal"  role="form" action="{% url 'device_manage_add' %}" method="POST"   data-toggle="validator" onsubmit="return check_IP()">
+		    <div class="form-group"  >
+			      <label for="idc" class="col-sm-1 control-label">机房</label>
+			      <div class="col-sm-2">
+					<select class="form-control" name="idc">
+					 {% for info in IDCinfo %}
+			                <option value={{info.id}}>{{info.name}}</option>
+					 {%endfor%}
+					</select>
+			      </div>
+			      <label for="status" class="col-sm-1 control-label">状态</label>
+			      <div class="col-sm-2">
+					<select class="form-control" name="status">
+					{% for i in Statusinfo %}
+			                <option value={{i.id}}>{{i.status}}</option>
+					{%endfor%}
+					</select>
+			      </div>
+			      <label for="comment" class="col-sm-1 control-label">备注描述</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" name="comment">
+			      </div>
+			  </div>
+            
+             <div class="form-group">
+			      <label for="externalip1" class="col-sm-1 control-label">外网IP1</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="externalip1"  required="required" name="externalip1" >
+				  </div>
+			      <label for="internalip1" class="col-sm-1 control-label">内网IP1</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="internalip1"  required="required" name="internalip1" >
+			      </div>
+			      <label for="system_type" class="col-sm-1 control-label">系统类型</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="system_type" name="system_type" >
+			      </div>
+			  </div>
+			  
+			  <div class="form-group">
+			      <label for="externalip2" class="col-sm-1 control-label">外网IP2</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="externalip2" name="externalip2" >
+				  </div>
+			      <label for="internalip2" class="col-sm-1 control-label">内网IP2</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="internalip2" name="internalip2" >
+			      </div>
+			      <label for="system_version" class="col-sm-1 control-label">系统版本</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="system_version" name="system_version" >
+			      </div>
+			  </div>
+
+			  <div class="form-group">
+			      <label for="host_type" class="col-sm-1 control-label">设备类型</label>
+			      <div class="col-sm-2">
+			         <select class="form-control" name="host_type">
+						{% for i in Deviceinfo %}
+				                <option value={{i.id}}>{{i.type}}</option>
+						{%endfor%}
+					</select>
+				  </div>
+			
+			      <label for="buy_type" class="col-sm-1 control-label">购买方式</label>
+			      <div class="col-sm-2">
+			         <select class="form-control" name="buy_type">
+						{% for i in Buyinfo %}
+				                <option value={{i.id}}>{{i.type}}</option>
+						{%endfor%}
+					</select>
+			      </div>
+			      <label for="number" class="col-sm-1 control-label">系列号</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="system_version" name="number" >
+			      </div>
+			  </div>
+			  
+			  <div class="form-group">
+			      <label for="cpu" class="col-sm-1 control-label">CPU(核)</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="cpu" name="cpu" >
+				  </div>
+			      <label for="cpu_hz" class="col-sm-1 control-label">CPU(hz)</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="cpu_hz" name="cpu_hz" >
+			      </div>
+			      <label for="memory" class="col-sm-1 control-label">内存</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="memory" name="memory" >
+			      </div>
+			  </div>
+			  
+			  <div class="form-group">
+			      <label for="disk" class="col-sm-1 control-label">硬盘大小</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="disk" name="disk" >
+				  </div>
+			      <label for="disk_num" class="col-sm-1 control-label">硬盘个数</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="disk_num" name="disk_num" >
+			      </div>
+			      <label for="disk_type" class="col-sm-1 control-label">硬盘类型</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="disk_type" name="disk_type" >
+			      </div>
+			  </div>
+			  
+			  <div class="form-group">
+			      <label for="brand" class="col-sm-1 control-label">厂商</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="brand" name="brand" >
+				  </div>
+			      <label for="mac" class="col-sm-1 control-label">MAC地址</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="mac" name="mac" >
+			      </div>
+			      <label for="hostname" class="col-sm-1 control-label">主机名</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="hostname" name="hostname" >
+			      </div>
+			  </div>
+			  
+			  
+
+			  <div class="form-group">
+			      <label for="position" class="col-sm-1 control-label">机器位置</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="position" name="position" >
+				  </div>
+			      <label for="cabinet" class="col-sm-1 control-label">机柜号</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="cabinet" name="cabinet" >
+			      </div>
+			      <label for="sn" class="col-sm-1 control-label">SN编号</label>
+			      <div class="col-sm-2">
+			         <input type="text" class="form-control" id="sn" name="sn" >
+			      </div>
+			  </div>
+
+			  <div class="form-group">
+			      <label for="date_added" class="col-sm-1 control-label">创建时间</label>
+			      <div class="col-sm-2">
+			      	 <div class="input-group date day_date" data-date-format="yyyy MM dd - hh" data-link-field="dtp_input1">
+			         <!--input type="text" class="form-control" id="date_added" name="date_added" -->
+			         <input class="form-control" size="16" type="text" value="" name="date_added" required>
+			         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                     </div>
+				  </div>
+			  </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-1">
+                  <button class="btn btn-primary" type="submit">提交</button>
+               </div>
+                <div class="col-sm-1">
+                  
+                  <input class="btn btn-default" type="button" onclick="javascript:history.go(-1)" value="返回" name="Submit">
+                </div>
+             </div>
+          </form>
+{% endblock %}
+{% block self_add_js %}
+<script src="/static/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.zh-CN.js"></script>
+  	
+{% endblock %}
+{% block self_footer_js %}
+ 	$('.day_date').datetimepicker({
+		language:  'zh-CN',
+		format: 'yyyy-mm-dd',
+		startDate: "2014-12-01",
+		minView:2,
+		autoclose: true
+    	});
+   
+ 	function check_IP(){
+ 	var ip = document.getElementById('externalip1').value;
+ 	var re=/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/;//正则表达式
+ 	if(re.test(ip))   
+		   {   
+			   if( RegExp.$1<256 && RegExp.$2<256 && RegExp.$3<256 && RegExp.$4<256) 
+			   return true;   
+		   }   
+		   alert("IP输入错误,请检查！");   
+		   return false;   
+ 	}
+  	
+{% endblock %}
+       
+</body></html>

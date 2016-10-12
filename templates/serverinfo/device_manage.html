@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block self_head_css %} 
+<link href="/static/css/statusecho.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+          <h3 class="sub-header">设备管理</h3>
+          <br>
+            <form class="form-inline"  id="asset_form" method="POST" >
+              <a href="{% url 'device_manage_add' %}"><input type="button" class="btn btn-primary" value="添加主机"/></a>
+               &nbsp;&nbsp;&nbsp;
+               
+                <div class="form-group">
+                  <label for="externalip1">IP：</label>
+                  <input type="text" class="form-control"  name="externalip1" id="externalip1" placeholder="需要查询的ip地址" value={{externalip1}}>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="form-group">
+                  <label for="name">机房：</label>
+                  <select class="form-control" name="name"  style="width:160px" class="form-control m-b input-sm" onchange="change_info()">
+						<option value=''>全部</option>
+					{% for idc in IDCinfo %}
+						{% ifequal idc.id idc_id %}
+							<option value={{idc.id}} selected >{{idc.name}}</option>
+						{% else %}
+							<option value={{idc.id}} >{{idc.name}}</option>
+						{% endifequal %}
+					{%endfor%}
+				  </select>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="form-group">
+                  <label for="status">状态：</label>
+                  <select class="form-control" name="status" style="width:160px" class="form-control m-b input-sm" onchange="change_info()">
+						<option value=''>全部</option>
+					{% for idc in Statusinfo %}
+						{% ifequal idc.id status_id %}
+							<option value={{idc.id}} selected >{{idc.status}}</option>
+						{% else %}
+							<option value={{idc.id}}>{{idc.status}}</option>
+						{% endifequal %}
+					{%endfor%}
+				  </select>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" class="btn btn-primary">查询</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="button" href="{% url 'device_manage' %}?export=true" name="export" class="btn btn-default" onclick="return false">导出</button>
+          </form> <!-- end form -->           
+            <br>
+          <div class="table-responsive ">
+            <table class="table  table-bordered table-hover">
+              <thead>
+                <tr>
+                  <!--th>序号</th-->
+                  <th class="text-center">机      房</th>
+                  <th class="text-center">外网IP1</th>
+                  <th class="text-center">内网IP1</th>
+                  <th class="text-center">CPU(核)</th>
+                  <th class="text-center">内存(G)</th>
+                  <th class="text-center">磁盘大小</th>
+                  <th class="text-center">状       态</th>
+                  <th class="text-center">设备类型</th>
+                  <th class="text-center">系列号</th>
+                  <th class="text-center">备注说明</th>
+                  <th class="text-center">创建时间</th>
+                  <th class="text-center">操       作</th>
+                  
+                </tr>
+              </thead>
+	              <tbody>
+	              		 {% for post in All_page_info  %}
+	              		<tr>
+	              			<td width="120" class="text-center" > {{post.idc}} </td>
+	              			<td width="120" class="text-center"><a data-toggle="modal" data-target="#myModal{{post.id}}"> {{post.externalip1}} </a></td>
+	              			<td width="120" class="text-center"> {{post.internalip1}} </td>
+	              			<td width="80" class="text-center"> {{post.cpu}} </td>
+	              			<td width="80" class="text-center"> {{post.memory}} </td>
+	              			<td width="100" class="text-center"> {{post.disk}} </td>
+	              			{%if post.status.id == 1 %}
+	              				<td width="80" class="text-center"><span class="state_color_510">{{post.status}}</span></td>
+	              			{%elif post.status.id == 3 or post.status.id == 2 %}
+	              				<td width="80" class="text-center"><span class="state_color_610" style="background-color:lightskyblue">{{post.status}}</span></td>
+	              			{%else%}
+	              				<td width="80" class="text-center"><span class="state_color_610">{{post.status}}</span></td>
+	              			{%endif%}
+	              			<td width="100" class="text-center"> {{post.host_type}} </td>
+	              			<td width="100" class="text-center"> {{post.number}} </td>
+	              			<td width="140" class="text-center"> {{post.comment}} </td>
+	              			<td width="120" class="text-center"> {{post.date_added}} </td>
+	              			<td width="100" class="text-center"> 
+	              				 <a href="{% url 'device_manage_edit' %}?id={{ post.id }}"><span class="glyphicon glyphicon-pencil"></span></a>
+	                      		 <a href="{% url 'device_manage_del' %}?id={{ post.id }}"><span class="glyphicon glyphicon-remove" onclick="return delinfo()"></span></a>
+	              			</td>
+	              		</tr>
+          		</div>
+				<div class="modal fade" id="myModal{{post.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="myModalLabel">服务器详细信息</h4>
+					  </div>
+					  <div class="modal-body">
+						<iframe src="{% url 'device_detailed' %}?id={{ post.id }}" width="100%" height="730" frameborder="no" border="0" marginwidth="0" marginheight="0"  allowtransparency="yes"></iframe>					
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			{% endfor %}
+			</tbody>
+    	</table>
+{% include 'paginator.html' %}
+{% endblock %}
+
+{% block self_footer_js %}
+		function delinfo(){
+			if(confirm("是否确认删除该记录？？")){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		
+		function change_info(){
+			var args = $("#asset_form").serialize();
+			window.location = "{% url 'device_manage' %}?" + "q=0&"+args
+			//alert(args);
+		}
+  	
+{% endblock %}
+</body></html>

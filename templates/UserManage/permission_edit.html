@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+          <h3 class="sub-header">权限编辑</h3>
+          <br>
+
+          <form class="form-horizontal"  role="form" action="{% url 'permission_save' %}" method="POST"   data-toggle="validator">
+            <!--div class="form-group" >
+              <label class="col-sm-2 control-label" for="idc-id">ID:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="idc-id" placeholder="ID">
+              </div>
+            </div-->
+            {% for i in Permission_list %}
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="id">序列ID:</label>
+              <div class="col-sm-4">
+                <input   disabled="true" type="text" class="form-control" name="newid" placeholder="ID" value={{i.id}}>
+              </div>
+            </div>
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="name">权限名称:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="name" placeholder="权限名称"  required="required"  value={{i.name}}>
+              </div>
+            </div>
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="url">权限URL:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="url" placeholder="URL" value={{i.url}}>
+              </div>
+            </div>
+            
+            <div style="display:none"><input type="text" name='id' value={{i.id}} /></div>
+            
+            
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-1">
+                  <button class="btn btn-primary" type="submit">提交</button>
+               </div>
+                <div class="col-sm-1">
+                  <input class="btn btn-default" type="button" onclick="javascript:history.go(-1)" value="返回" name="Submit">
+                </div>
+             </div>
+             {% endfor %}
+          </form>
+{% endblock %}
+
+{% block self_footer_js %} 
+  	
+{% endblock %}
+       
+</body></html>

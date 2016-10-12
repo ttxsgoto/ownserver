@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+          <h3 class="sub-header">用户编辑</h3>
+          <br>
+
+          <form class="form-horizontal"  role="form" action="{% url 'user_save' %}" method="POST"   data-toggle="validator">
+            <!--div class="form-group" >
+              <label class="col-sm-2 control-label" for="idc-id">ID:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="idc-id" placeholder="ID">
+              </div>
+            </div-->
+            {% for i in Userlist %}
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="username">账号:</label>
+              <div class="col-sm-4">
+                <input type="text" disabled="true" class="form-control" name="username" placeholder="账号"  required="required"  value={{i.username}}>
+              </div>
+            </div>
+            
+            <!--div class="form-group" >
+              <label class="col-sm-2 control-label "  for="password">密码:</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" name="password" placeholder="密码" required="required"  value={{i.password}}>
+              </div>
+            </div-->
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="email">邮箱:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="email" placeholder="邮箱" value={{i.email}}>
+              </div>
+            </div>
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="nickname">姓名:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="nickname" placeholder="姓名" value={{i.nickname|default:"----"}}>
+              </div>
+            </div>
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="sex">性别:</label>
+              <div class="col-sm-4">
+              		{% for key,values in Sex.items %}
+					<label> <input class="list-inline"  name="sex" type="radio" value="{{key}}"  {% ifequal key i.sex %} checked {% endifequal %} />{{values}}</label>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					{% endfor %}
+              </div>
+            </div>
+            
+            <div style="display:none"><input type="text" name='id' value={{i.id}} /></div>
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="role">角色:</label>
+              <div class="col-sm-4">
+              		<select class="form-control" name="role" style="width:240px;text-align:center;"  class="form-control m-b input-sm" onchange="change_info()">
+					<option  value='' selected>--------</option>
+						{% for role in Rolelist %}
+							{% if i.role_id == role.id %}
+								<option value={{role.id}} selected="selected">{{role.name}}</option>
+							{% else %}
+								<option value={{role.id}} >{{role.name}}</option>
+							{% endif %}
+						{% endfor %}
+			  		</select>
+			   </div>
+            </div>
+            
+             <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="is_active">状态:</label>
+              <div class="col-sm-4">
+              		<select class="form-control" name="is_active" style="width:240px;text-align:center;"  class="form-control m-b input-sm" onchange="change_info()">
+						{% for isactive in Isactive %}
+							{% if i.is_active == isactive %}
+								<option  value="1"  >启用</option>
+							{% else %}
+								<option value="0"  >禁用</option>
+							{% endif %}
+						{% endfor %}
+				  	</select>
+			   </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-1">
+                  <button class="btn btn-primary" type="submit">提交</button>
+               </div>
+                <div class="col-sm-1">
+                  <input class="btn btn-default" type="button" onclick="javascript:history.go(-1)" value="返回" name="Submit">
+                </div>
+                
+                <div class="col-sm-2">
+                  <input class="btn btn-danger" type="button" onclick="location='{% url 'user_resetpwd' %}?id={{i.id}}'" value="重置密码" name="Submit">
+                </div>
+             </div>
+             {% endfor %}
+          </form>
+{% endblock %}
+
+{% block self_footer_js %} 
+  	
+{% endblock %}
+       
+</body></html>

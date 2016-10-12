@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+          <h3 class="sub-header">角色添加</h3>
+          <br>
+
+          <form class="form-horizontal"  role="form" action="{% url 'role_add' %}" method="POST"   data-toggle="validator">
+            <!-- div class="form-group" >
+              <label class="col-sm-2 control-label" for="idc-id">序号ID:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="id" placeholder="ID">
+              </div>
+            </div-->
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="name">角色名称:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" name="name" placeholder="角色名称" required="required">
+              </div>
+            </div>
+            
+            <div class="form-group" >
+              <label class="col-sm-2 control-label "  for="url">所有URL:</label>
+              <div class="col-sm-4">
+				  <div>
+						<select id="assets" name="assets" class="form-control m-b" size="12" multiple>
+							{% for i in Roleinfo %}
+								<option value="{{ i.id }}">{{i.id}}.{{ i.name|default_if_none:"" }} -> {{ i.url|default_if_none:"" }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				
+				<div class="col-sm-1">
+					<div class="btn-group" style="margin-top: 60px;">
+						<button type="button" class="btn btn-white" onclick="move_right('assets', 'asset_select')"><i class="glyphicon glyphicon-chevron-right"></i></button>
+					</div>
+					<br><br>
+					<div>
+						<button type="button" class="btn btn-white" onclick="move_left('asset_select', 'assets')"><i class="glyphicon glyphicon-chevron-left"></i> </button>
+					</div>
+				</div>
+				
+				<div class="col-sm-4">
+					<div>
+						<select id="asset_select" name="asset_select" class="form-control m-b" size="12"  multiple></select>
+					</div>
+				</div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-1">
+                  <button class="btn btn-primary" type="submit" onclick="on_submit('asset_select')">提交</button>
+               </div>
+                <div class="col-sm-1">
+                  
+                  <input class="btn btn-default" type="button" onclick="javascript:history.go(-1)" value="返回" name="Submit">
+                </div>
+             </div>
+          </form>
+{% endblock %}
+
+{% block self_footer_js %}
+
+    function move_left(from, to) {
+        $("#"+from+" option").each(function(){
+            if ( $(this).prop("selected") == true ) {
+                $("#"+to).append(this);
+                $(this).attr("selected",'false');
+            }
+            $(this).attr("selected",'true');
+        });
+    }
+    function move_right(from, to) {
+        $("#"+from+" option").each(function(){
+            if ( $(this).prop("selected") == true ) {
+                $("#"+to).append(this);
+            }
+        });
+    }
+
+    function move_all(from, to){
+        $("#"+from).children().each(function(){
+            $("#"+to).append(this);
+        });
+    }
+
+	function on_submit(id){
+        $('#'+id+' option').each(
+            function(){
+                $(this).prop('selected', true)
+            });
+    }
+ 
+  	
+{% endblock %}
+       
+</body></html>

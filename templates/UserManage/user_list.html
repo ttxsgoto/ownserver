@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+		<h3 class="sub-header">用户列表</h3>
+		<br>
+		<div>
+             <!--  <button type="submit" class="btn btn-default">查询</button> -->
+              <a href="{% url 'user_add' %}"><input type="button" class="btn btn-primary" value="添加用户"/></a>
+            </div>
+        <br>
+            <div class="table-responsive ">
+            	<table class="table  table-bordered table-hover">
+              		<thead>
+                    	<tr>
+	                        <th class="text-center">账号</th>
+	                        <th class="text-center">姓名</th>
+	                        <th class="text-center">性别</th>
+	                        <th class="text-center">Email</th>
+	                        <th class="text-center">状态</th>
+	                        <th class="text-center">角色</th>
+	                        <th class="text-center">最后登录时间</th>
+	                        <th class="text-center"> 操作</th>
+                    	</tr>
+                	</thead>
+                <tbody>
+                  {% for i in All_page_info %}
+                <tr>
+                    <td  style="text-align:center;">{{ i.username }}</td>
+                    <td  style="text-align:center;">{{ i.nickname|default:"----" }}</td>
+                    <td  style="text-align:center;">
+                    	{% if i.sex == "M"%}
+                    		<div class="num" style="float:none;">男</div>
+                    	{% elif i.sex == "W" %}
+                    		<div class="num" style="float:none;">女</div>
+                    	{% else %}
+                    		<div class="num" style="float:none;">----</div>
+                    	{% endif %}
+                    </td>
+                    <td  style="text-align:center;">{{ i.email }}</td>
+                    <td  style="text-align:center;">
+                        {% if i.is_active %}
+                            <div class="num" style="float:none;"><a class="state_color_510" style="background-color:lightskyblue" >启用</a></div>
+                        {% else %}
+                            <div class="num" style="float:none;"><a class="state_color_610" >禁用</a></div>
+                        {% endif %}
+                    </td>
+                    <td  style="text-align:center;">{{ i.role|default:"----" }}</td>
+                    <td  style="text-align:center;">{{ i.last_login|date:"Y-m-d H:i:s" }}</td>
+                    <td  style="text-align:center;"> 
+         				 <a href="{% url 'user_edit' %}?id={{ i.id }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                 		 <a href="{% url 'user_del' %}?id={{ i.id }}"><span class="glyphicon glyphicon-remove" onclick="return delinfo()"></span></a>
+	              	</td>
+                </tr>
+            {% endfor %}
+                </tbody>
+            </table>
+        </div>
+             {% include "paginator.html" %}
+    </div>
+    </div>
+    <div class="clear"></div>
+{% endblock %}
+
+{% block self_footer_js %}
+		function delinfo(){
+			if(confirm("是否确认删除该记录？？")){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		
+		function change_info(){
+			var args = $("#asset_form").serialize();
+			window.location = "{% url 'device_manage' %}?" + "q=0&"+args
+			//alert(args);
+		}
+  	
+{% endblock %}

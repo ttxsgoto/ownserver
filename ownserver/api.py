@@ -5,7 +5,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, InvalidPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
-import os
+import os,datetime
+import xlsxwriter
 
 def my_render(template,data,request):
     return render_to_response(template, data, context_instance=RequestContext(request))
@@ -80,3 +81,60 @@ def All_in_one(request,All_page_info):
     page = getpage_id(request)
     All_page_info,page=getpages(All_page_info,page)
     return DataCount,page,All_page_info
+
+
+def write_excel(data_all):
+    data = []
+    now = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M')
+    file_name = 'cmdb_excel_' + now + '.xlsx'
+    workbook = xlsxwriter.Workbook('static/files/excels/%s' % file_name)
+    worksheet = workbook.add_worksheet(u'资产数据')
+    worksheet.set_first_sheet()
+    worksheet.set_column('A:E', 15)
+    worksheet.set_column('F:F', 15)
+    worksheet.set_column('G:Z', 15)
+    title = [u'机房', u'外网IP', u'内网IP',u'CPU(核)', u'内存(G)', u'磁盘空间',
+             u'状态', u'设备类型', u'序列号',u'备注',u'创建时间']
+    for i in data_all:
+        idc = i.idc.name
+        externalip1 = i.externalip1
+        internalip1 = i.internalip1
+        cpu = i.cpu
+        memory = i.memory
+        disk = i.disk
+        status = i.status.status
+        host_type = i.host_type.type
+        number = i.number
+        comment = i.comment
+        date_added = i.date_added
+        server_dic = [idc,externalip1,internalip1,cpu,memory,disk,status,host_type,number,comment,date_added]
+        #print server_dic
+        data.append(server_dic)
+    format = workbook.add_format()  #每项的格式设置
+    format.set_border(1)
+    format.set_align('center')
+    format.set_align('vcenter')
+    format.set_text_wrap()
+
+    format_title = workbook.add_format()    #标题格式
+    format_title.set_border(1)
+    format_title.set_bg_color('#cccccc')
+    format_title.set_align('center')
+    format_title.set_bold()  
+    
+    format_ave = workbook.add_format()
+    format_ave.set_border(1)
+    format_ave.set_num_format('0.00')
+
+    worksheet.write_row('A1', title, format_title)
+    i = 2
+    for server_dic1 in data:
+        location = 'A' + str(i)
+        worksheet.write_row(location, server_dic1, format)
+        i += 1 
+    workbook.close()
+    ret = (True, file_name)
+    return ret   
+        
+
+

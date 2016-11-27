@@ -228,6 +228,50 @@ def device_manage(request):
     IDCinfo = get_object_all(IDC)
     Statusinfo = get_object_all(Device_status)
     All_page_info = get_object_all(Serverhost).order_by("-id")
+    if  request.GET.get("export")=="true":
+        All_page_info = get_object_all(Serverhost)
+        s = write_excel(All_page_info)
+        if s[0]:
+            file_name = s[1]
+            return my_render('serverinfo/device_excel_download.html', locals(), request)
+        else:
+            return my_render("serverinfo/device_manage.html",locals(),request)
+             
+    if request.method == 'GET' and request.GET.get("q")=="0":
+        idc_id = request.GET.get("name","")
+        status_id = request.GET.get("status","")
+        #export = request.GET.get("export", False)
+        if idc_id and len(status_id)==0:
+            idc_id = int(idc_id)
+            All_page_info = get_object(Serverhost,idc_id=idc_id)
+        if status_id and len(idc_id)==0:
+            status_id=int(status_id)
+            All_page_info = get_object(Serverhost,status_id=status_id)
+        if idc_id and status_id:
+            idc_id = int(idc_id)
+            status_id=int(status_id)
+            kwarg = {"idc_id":idc_id,"status_id":status_id}
+            All_page_info = get_object(Serverhost,**kwarg)
+        DataCount,page,All_page_info = All_in_one(request,All_page_info)
+            
+        return my_render("serverinfo/device_manage.html",locals(),request)
+    
+    else:
+        externalip1 = request.POST.get("externalip1","")
+        if externalip1:
+            page = getpage_id(request)
+            All_page_info = Serverhost.objects.filter(externalip1=externalip1)
+            DataCount = len(All_page_info)
+            All_page_info,page=getpages(All_page_info,page)
+            return my_render("serverinfo/device_manage.html",locals(),request)
+    DataCount,page,All_page_info = All_in_one(request,All_page_info)
+    return my_render("serverinfo/device_manage.html",locals(),request)
+
+def device_manage1(request):
+    username=get_username(request)
+    IDCinfo = get_object_all(IDC)
+    Statusinfo = get_object_all(Device_status)
+    All_page_info = get_object_all(Serverhost).order_by("-id")
     if request.method == 'GET' and request.GET.get("q")=="0":
         idc_id = request.GET.get("name","")
         status_id = request.GET.get("status","")
@@ -254,6 +298,7 @@ def device_manage(request):
             return my_render("serverinfo/device_manage.html",locals(),request)
     DataCount,page,All_page_info = All_in_one(request,All_page_info)
     return my_render("serverinfo/device_manage.html",locals(),request)
+
 
 @login_required(login_url="/accounts/login/")
 @PermissionVerify()

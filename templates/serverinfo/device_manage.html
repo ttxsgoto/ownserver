@@ -41,9 +41,10 @@
                 </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <button type="submit" class="btn btn-primary">查询</button>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <button type="button" href="{% url 'device_manage' %}?export=true" name="export" class="btn btn-default" onclick="return false">导出</button>
+              <button type="button" href="{% url 'device_manage' %}?export=true" name="export" class="btn btn-default" onclick="ajax_export()">导出</button>
           </form> <!-- end form -->           
             <br>
+          <div id="html_export"> </div>
           <div class="table-responsive ">
             <table class="table  table-bordered table-hover">
               <thead>
@@ -125,6 +126,18 @@
 			var args = $("#asset_form").serialize();
 			window.location = "{% url 'device_manage' %}?" + "q=0&"+args
 			//alert(args);
+		}
+		function ajax_export(){
+			//var args = $("")
+			$.ajax({
+				type:"GET",
+				url:"",
+				data:{export:"true"},
+				success:function (callback){
+					$("#html_export").html(callback);	//将数据添加到前端对应的位置
+				}	
+			})
+		
 		}
   	
 {% endblock %}
